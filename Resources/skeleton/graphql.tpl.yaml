@@ -1,0 +1,2 @@
+graphql:
+    schema_service: 'App\GraphQL\Schema'

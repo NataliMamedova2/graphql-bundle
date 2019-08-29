@@ -1,0 +1,24 @@
+{
+  "name": "Test/graphql",
+  "description": "GraphQL Bundle uses for sending and receiving graphql queries among microservices through  Message Bus.",
+  "keywords": ["GraphQL", "Microservices"],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Mamedova Nataliia",
+      "email": "mamed.nata@gmail.com"
+    }
+  ],
+  "type": "symfony-bundle",
+  "autoload": {
+    "psr-4": {
+      "Test\\GraphQL\\": ""
+    }
+  },
+  "require": {
+    "php": ">=7.1",
+    "youshido/graphql-bundle": "^1.4",
+    "symfony/validator": "^4.2",
+    "symfony/maker-bundle": "^1.12"
+  }
+}

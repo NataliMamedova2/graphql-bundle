@@ -1,0 +1,51 @@
+services:
+    # Add Graphql processor
+    graphql.processor:
+        public: true
+        class: Youshido\GraphQLBundle\Execution\Processor
+        arguments:
+            $executionContext: '@graphql.execution_context'
+            $eventDispatcher: "@event_dispatcher"
+        calls:
+            - [setSecurityManager, ['@graphql.security_manager']]
+    
+    
+    # Helper for making classes
+    class_finder:
+        class: Test\GraphQL\Service\Helper\ClassFinder
+        public: true
+        arguments:
+            - "%kernel.root_dir%"
+    
+    # Add maker command for creating GraphQL schema
+    maker.graphql.make_schema:
+        class: Test\GraphQL\Maker\MakeGraphQLSchema
+        public: true
+        tags: ['maker.command']
+        arguments:
+            - "%kernel.root_dir%"
+    
+    # Add maker command for creating GraphQL type
+    maker.graphql.make_type:
+        class: Test\GraphQL\Maker\MakeGraphQLType
+        public: true
+        tags: ['maker.command']
+        arguments:
+            - "@=service('maker.doctrine_helper') ? service('maker.doctrine_helper')"
+            - "@=service('maker.file_manager') ? service('maker.file_manager')"
+            - "@=container.get(parameter('graphql.schema_service'))"
+    
+    # Add maker command for creating GraphQL type
+    maker.graphql.make_query:
+        class: Test\GraphQL\Maker\MakeGraphQLQuery
+        public: true
+        tags: ['maker.command']
+        arguments:
+            - "@class_finder"
+            - "@=service('maker.file_manager') ? service('maker.file_manager')"
+            - '%graphql.schema_class%'
+            - "@=container.get(parameter('graphql.schema_service'))"
+
+    Test\GraphQL\Service\Helper\Validator:
+        arguments:
+            - "@validator"
